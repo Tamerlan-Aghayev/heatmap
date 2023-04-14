@@ -23,14 +23,18 @@ def showPerCapita():
         val=df_indexed.loc[country, "Consumption per capita(kWs)"]
         lat=df_indexed.loc[country, "latitude"]
         lon=df_indexed.loc[country, "longitude"]
-        st.write("Adam başına düşən enerji sərfiyyatı: "+str(round(val, 2))+"kW")
-        st.write('latitude: '+str(lat))
-        st.write('longitude: '+str(lon))
+        st.write("Adam başına düşən enerji sərfiyyatı: **"+str(round(val, 2))+"kW**")
+        st.write('latitude: **'+str(lat)+'**')
+        st.write('longitude: **'+str(lon)+'**')
         model = pickle.load(open('model.pkl', 'rb'))
     
     
         dtf=pd.DataFrame({'latitude':[float(lat)], 'longitude':[float(lon)]})
         transformer=PolynomialFeatures(degree=2)
         dtf=transformer.fit_transform(dtf)
-        val=model.predict(dtf).sum()
-        st.write("Proqnoz olunan enerji: "+str(round(val,2))+"kWs")
+        pr=model.predict(dtf).sum()
+        st.write("Proqnoz olunan enerji: **"+str(round(pr,2))+" kWs**")
+        
+        if pr>val:
+            st.write("Fərq: **"+ str(round((pr-val)/pr*100))+"%**")
+            
