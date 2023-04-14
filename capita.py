@@ -6,6 +6,7 @@ def showPerCapita():
     df_indexed=pd.read_csv("data_indexed.csv")
     df_indexed.set_index("location", inplace=True)
     df=pd.read_csv("data_new.csv")
+    df["Consumption per capita(kWs)"]=round(df["Consumption per capita(kWs)"], 2)
     fig1 = px.scatter_mapbox(df, lat="latitude", lon="longitude", color="Consumption per capita(kWs)",
                             size="Consumption per capita(kWs)", hover_name="location", zoom=6,
                             mapbox_style="carto-positron",size_max=50)
